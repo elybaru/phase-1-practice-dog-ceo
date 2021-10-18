@@ -116,14 +116,13 @@ function filterBreedByLetter() {
 
 // Challenge 3 option with boolean- not yet working
 function changeColor(event) {
-    let colorText;
+    let colorText = false;
     if (!colorText) {
         event.target.style.color = "red"
-        colorText = false
     } else {
         event.target.style.color = "black"
-        colorText = true
     }
+    colorText = !colorText
 }
 
 // Why didn't this work in Challenge 3?
