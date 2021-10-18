@@ -24,11 +24,25 @@ const breedUrl = 'https://dog.ceo/api/breeds/list/all'
 let allBreeds = []
 const dogList = document.getElementById("dog-breeds")
 
+document.addEventListener("DOMContentLoaded", () => {
+    fetchLinks()
+})
 
+function fetchLinks() {
+    fetch(breedUrl)
+        .then(resp => resp.json())
+        .then(data => {
+            renderAllBreeds(Object.keys(data.message))
+            addListeners()
+        })
+}
 
-fetch(breedUrl)
-    .then(resp => resp.json())
-    .then(data => renderAllBreeds(Object.keys(data.message)))
+function addListeners() {
+    let dropdown = document.getElementById("breed-dropdown")
+    dropdown.addEventListener("change", filterBreedByLetter)
+    dogList.addEventListener("click", changeColor)
+
+}
 
 function renderAllBreeds(breeds) {
     allBreeds = breeds
@@ -39,17 +53,23 @@ function renderEachBreed(breed) {
     console.log(breed)
     let li = document.createElement("li")
     li.innerText = breed
-    li.addEventListener("click", changeColor)
+    // li.addEventListener("click", changeColor)
     dogList.appendChild(li)
-    let dropdown = document.getElementById("breed-dropdown")
-
-    dropdown.addEventListener("change", filterBreedByLetter)
     // map the data from all breeds to a shorter list by value reasign breed variable
     // this event listener will push to a callback the letter
     // then in this callback, it will filter all the breeds saved into allbreeds by the value of letter
     // then it will push the filtered result back into renderEachBreed
     // then it will be printed to the DOM with lis. 
 }
+
+// Array.from(li).forEach(item => {
+//     console.log(item)
+//     item.addEventListener('click', event => {
+//         item.style.color = "red"
+//     })
+// })
+
+// JS parses 3 times
 
 // We are fetching breed URL
 // We are turning into response, jsonifying it
@@ -64,7 +84,6 @@ function filterBreedByLetter() {
         return item[0] === letter;
     })
     console.log(filteredBreeds)
-    let noBreedsFound;
     dogList.innerHTML = ''
     console.log(filteredBreeds.length)
     if (filteredBreeds.length > 0) {
@@ -79,64 +98,36 @@ function filterBreedByLetter() {
 
 
 // Challenge 3
+// This code works
 
-function changeColor(event) {
-    let colorText = event.target.style.color
-    if (colorText === "black") {
-        event.target.style.color = "red"
-    } else {
-        event.target.style.color = "black"
-    }
-}
+// function changeColor(event) {
+//     let colorText = event.target.style.color
+//     if (colorText === "black") {
+//         event.target.style.color = "red"
+//     } else {
+//         event.target.style.color = "black"
+//     }
+// }
 
 // Challenge 4
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // What's the deal with semicolons? Best practice?
 
-// Challenge 3 option with boolean
-// function changeColor(event) {
-//     let colorText;
-//     if (!colorText) {
-//         event.target.style.color = "red"
-//         colorText = false
-//     } else {
-//         event.target.style.color = "black"
-//         colorText = true
-//     }
-// }
+// Challenge 3 option with boolean- not yet working
+function changeColor(event) {
+    let colorText;
+    if (!colorText) {
+        event.target.style.color = "red"
+        colorText = false
+    } else {
+        event.target.style.color = "black"
+        colorText = true
+    }
+}
 
 // Why didn't this work in Challenge 3?
-// Array.from(li).forEach(item => {
-//     console.log(item)
-//     // item.addEventListener('click', event => {
-//     //     item.style.color = "red"
-//     // })
-// })
+
 
 
 
